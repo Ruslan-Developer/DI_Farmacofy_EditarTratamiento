@@ -110,6 +110,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                 ),
               ),
               SizedBox(width: 75),
+              
               CircleAvatar(
                 radius: 25,
                 backgroundImage: NetworkImage(

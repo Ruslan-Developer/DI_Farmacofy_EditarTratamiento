@@ -1,6 +1,8 @@
 import 'package:farmacofy/BBDD/bbdd.dart';
 import 'package:farmacofy/BBDD/bbdd_medicamento_old.dart';
 import 'package:farmacofy/inicioSesion/pantallaLogin.dart';
+import 'package:farmacofy/models/tratamiento.dart';
+import 'package:farmacofy/pages/page_editar_tratamiento.dart';
 import 'package:farmacofy/pages/page_listado_usuarios.dart';
 import 'package:farmacofy/pages/page_tratamiento.dart';
 import 'package:farmacofy/presentacion/widgets/menu_drawer.dart';
@@ -76,11 +78,17 @@ class _ListadoTratamientosState extends State<ListadoTratamientos> {
                         //Separacion entre las tarjetas
                         margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
                         child: ListTile(
+                          //Imagen de assets del logo
                           leading: CircleAvatar(
-                            radius: 25,
-                            backgroundImage: NetworkImage(
-                                'https://www.stylist.co.uk/images/app/uploads/2022/06/01105352/jennifer-aniston-crop-1654077521-1390x1390.jpg?w=256&h=256&fit=max&auto=format%2Ccompress'),
+                          backgroundImage: AssetImage('assets/farmacofy.jpg'),
+                          radius: 25,  // Ajusta el radio para cambiar el tamaño del círculo.
                           ),
+
+                          // leading: CircleAvatar(
+                          //   radius: 25,
+                          //   backgroundImage: NetworkImage(
+                          //       'https://www.stylist.co.uk/images/app/uploads/2022/06/01105352/jennifer-aniston-crop-1654077521-1390x1390.jpg?w=256&h=256&fit=max&auto=format%2Ccompress'),
+                          // ),
                           title: Text(
                             snapshot.data![index]['condicionMedica'] ??
                                 'Sin nombre del medicamento',
@@ -92,24 +100,33 @@ class _ListadoTratamientosState extends State<ListadoTratamientos> {
                               Text('Dosis: ${snapshot.data![index]['dosis']}'),
                               Text(
                                   'Fecha de inicio: ${snapshot.data![index]['fechaInicio']}'),
+
                               Text(
                                   'Fecha de fin: ${snapshot.data![index]['fechaFin']}'),
+
                               Text(
-                                  'Frecuencia: ${snapshot.data![index]['frecuencia']}'),
+                                  'Administración cada: ${snapshot.data![index]['frecuencia']} horas'),
+
                               Text(
                                   'Via de administración: ${snapshot.data![index]['viaAdministracion']}'),
-                              Text('Hora inicio toma: ${snapshot.data![index]['horaInicioToma']}'),
-                              Text('Cantidad total envase : ${snapshot.data![index]['cantidadTotalPastillas']}'),
-                              Text('Cantidad mínima envase : ${snapshot.data![index]['cantidadMinima']}'),
-                              
+                              Text(
+                                  'Hora inicio toma: ${snapshot.data![index]['horaInicioToma']}'),
+                              Text(
+                                  'Cantidad total envase : ${snapshot.data![index]['cantidadTotalPastillas']}'),
+                              Text(
+                                  'Cantidad mínima envase : ${snapshot.data![index]['cantidadMinima']}'),
+                              Text(
+                                  'Descripción: ${snapshot.data![index]['descripcion']}'),
+
                               Text(
                                   'Medicamento: ${snapshot.data![index]['nombreMedicamento']}'),
-                               // Acordarse de poner: m.nombre as nombreMedicamento
+
+                              // Acordarse de poner: m.nombre as nombreMedicamento
                             ],
                           ),
-                          trailing: IconButton(
+                        trailing: IconButton(
                             icon: Icon(Icons.delete, color: Colors.red),
-                             // Pregunta si está seguro de eliminar el tratamiento
+                            // Pregunta si está seguro de eliminar el tratamiento
                             onPressed: () {
                               showDialog(
                                 context: context,
@@ -129,7 +146,8 @@ class _ListadoTratamientosState extends State<ListadoTratamientos> {
                                         child: const Text('Aceptar'),
                                         onPressed: () {
                                           // Aquí va tu código para eliminar el medicamento de la base de datos
-                                          BaseDeDatos.eliminarBD('Tratamiento', snapshot.data![index]['id']);
+                                          BaseDeDatos.eliminarBD('Tratamiento',
+                                              snapshot.data![index]['id']);
                                           // BaseDeDatos.eliminarBD('Medicamento', snapshot.data![index]['idMedicamento']);
                                           setState(() {});
                                           Navigator.of(context).pop();
@@ -142,18 +160,95 @@ class _ListadoTratamientosState extends State<ListadoTratamientos> {
                             },
                           ),
                           onTap: () {
+                            Tratamiento tratamientoSeleccionado = Tratamiento();
+                            tratamientoSeleccionado.id =
+                                snapshot.data![index]['id'];
+                            Tratamiento tratamientoIdMedicamento =
+                                Tratamiento();
+                            tratamientoIdMedicamento.idMedicamento =
+                                snapshot.data![index]['idMedicamento'];
+                            Tratamiento tratamientoIdUsuario = Tratamiento();
+                            tratamientoIdUsuario.idUsuario =
+                                snapshot.data![index]['idUsuario'];
+                            Tratamiento tratamientoCondicionMedica =
+                                Tratamiento();
+                            tratamientoCondicionMedica.condicionMedica =
+                                snapshot.data![index]['condicionMedica'];
+                            Tratamiento tratamientoDosis = Tratamiento();
+                            tratamientoDosis.dosis =
+                                snapshot.data![index]['dosis'];
+                            Tratamiento tratamientoFrecuencia = Tratamiento();
+                            tratamientoFrecuencia.frecuencia =
+                                snapshot.data![index]['frecuencia'];
+                            Tratamiento tratamientoViaAdministracion =
+                                Tratamiento();
+                            tratamientoViaAdministracion.viaAdministracion =
+                                snapshot.data![index]['viaAdministracion'];
+                            Tratamiento tratamientoFechaInicio = Tratamiento();
+                            tratamientoFechaInicio.fechaInicio =
+                                snapshot.data![index]['fechaInicio'];
+                            // DateTime fechaInicio = DateTime.parse(snapshot.data![index]['fechaInicio']);
+                            // tratamientoFechaInicio.fechaInicio = DateTime.parse(snapshot.data![index]['fechaInicio']);
+                            Tratamiento tratamientoFechaFin = Tratamiento();
+                            tratamientoFechaFin.fechaFin =
+                                snapshot.data![index]['fechaFin'];
+                            Tratamiento tratamientoHoraInicioToma =
+                                Tratamiento();
+                            tratamientoHoraInicioToma.horaInicioToma =
+                                snapshot.data![index]['horaInicioToma'];
+                            Tratamiento tratamientoCantidadTotalPastillas =
+                                Tratamiento();
+                            tratamientoCantidadTotalPastillas
+                                    .cantidadTotalPastillas =
+                                snapshot.data![index]['cantidadTotalPastillas'];
+                            Tratamiento tratamientoCantidadMinima =
+                                Tratamiento();
+                            tratamientoCantidadMinima.cantidadMinima =
+                                snapshot.data![index]['cantidadMinima'];
+                            Tratamiento tratamientoDescripcion = Tratamiento();
+                            tratamientoDescripcion.descripcion =
+                                snapshot.data![index]['descripcion'];
+                            // Tratamiento tratamientoRecordatorio = Tratamiento();
+                            // tratamientoRecordatorio.recordatorio = snapshot.data![index]['recordatorio'];
+
                             // Acción al pulsar sobre la tarjeta nos lleva a la pantalla de edición
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const PaginaTratamiento(
-                                  
-                           
+                                builder: (context) => EditarTratamiento(
+                                  tratamientoCondicionMedica:
+                                      tratamientoCondicionMedica,
+                                  tratamientoDosis: tratamientoDosis,
+                                  tratamientoFrecuencia: tratamientoFrecuencia,
+                                  tratamientoViaAdministracion:
+                                      tratamientoViaAdministracion,
+                                  tratamientoFechaInicio:
+                                      tratamientoFechaInicio,
+                                  tratamientoFechaFin: tratamientoFechaFin,
+                                  tratamientoHoraInicioToma:
+                                      tratamientoHoraInicioToma,
+                                  tratamientoCantidadTotalPastillas:
+                                      tratamientoCantidadTotalPastillas,
+                                  tratamientoCantidadMinima:
+                                      tratamientoCantidadMinima,
+                                  tratamientoDescripcion:
+                                      tratamientoDescripcion,
+                                  //  tratamientoRecordatorio: tratamientoRecordatorio,
+                                  tratamientoEditar: tratamientoSeleccionado,
+                                  tratamientoIdMedicamento:
+                                      tratamientoIdMedicamento,
+                                  tratamientoIdUsuario: tratamientoIdUsuario,
                                 ),
                               ),
                             );
                           },
-                        ),
+          
+
+                            
+                          ),
+
+                 
+     
                       );
                     },
                   );

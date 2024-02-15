@@ -276,7 +276,7 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                       //Asignación del valor del campo al atributo fechaInicio del objeto medicamento
                       onSaved: (value) {
                         if (value != null) {
-                          tratamiento.dia = value;
+                          tratamiento.fechaInicio = value;
                         }
                       },
                     ),
