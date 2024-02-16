@@ -11,7 +11,7 @@ class EditarTratamiento extends StatefulWidget {
   final Tratamiento tratamientoDosis;
   final Tratamiento tratamientoFrecuencia;
   final Tratamiento tratamientoViaAdministracion;
-    final Tratamiento tratamientoFechaInicio;
+  final Tratamiento tratamientoFechaInicio;
   final Tratamiento tratamientoFechaFin;
   final Tratamiento tratamientoHoraInicioToma;
   final Tratamiento tratamientoCantidadTotalPastillas;
@@ -40,7 +40,7 @@ class _EditarTratamientoState extends State<EditarTratamiento> {
   late TextEditingController dosisController;
   late TextEditingController frecuenciaController;
   late TextEditingController viaAdministracionController;
-     late TextEditingController fechaInicioController;
+  late TextEditingController fechaInicioController;
   late TextEditingController fechaFinController;
   late TextEditingController horaInicioTomaController;
   late TextEditingController cantidadTotalPastillasController;
@@ -76,7 +76,7 @@ class _EditarTratamientoState extends State<EditarTratamiento> {
     
     return  GestureDetector(
       onTap: () {
-        FocusScope.of(context).requestFocus(FocusNode());
+        FocusScope.of(context).requestFocus(FocusNode()); // Esto es para cerrar el teclado cuando tocas fuera de un campo de texto
       },
       child: Scaffold(
          appBar: AppBar(

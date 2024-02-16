@@ -80,8 +80,9 @@ class _ListadoTratamientosState extends State<ListadoTratamientos> {
                         child: ListTile(
                           //Imagen de assets del logo
                           leading: CircleAvatar(
-                          backgroundImage: AssetImage('assets/farmacofy.jpg'),
-                          radius: 25,  // Ajusta el radio para cambiar el tamaño del círculo.
+                            backgroundImage: AssetImage('assets/farmacofy.jpg'),
+                            radius:
+                                22, // Ajusta el radio para cambiar el tamaño del círculo.
                           ),
 
                           // leading: CircleAvatar(
@@ -97,34 +98,170 @@ class _ListadoTratamientosState extends State<ListadoTratamientos> {
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text('Dosis: ${snapshot.data![index]['dosis']}'),
-                              Text(
-                                  'Fecha de inicio: ${snapshot.data![index]['fechaInicio']}'),
+                              RichText(
+                                text: TextSpan(
+                                  text: 'Dosis: ',
+                                  style: DefaultTextStyle.of(context)
+                                      .style
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text:
+                                            '${snapshot.data![index]['dosis']} tomas',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.normal)),
+                                  ],
+                                ),
+                              ),
 
-                              Text(
-                                  'Fecha de fin: ${snapshot.data![index]['fechaFin']}'),
+                              RichText(
+                                text: TextSpan(
+                                  text: 'Fecha de inicio: ',
+                                  style: DefaultTextStyle.of(context)
+                                      .style
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text:
+                                            '${snapshot.data![index]['fechaInicio']}',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.normal)),
+                                  ],
+                                ),
+                              ),
 
-                              Text(
-                                  'Administración cada: ${snapshot.data![index]['frecuencia']} horas'),
+                              RichText(
+                                text: TextSpan(
+                                  text: 'Fecha de fin: ',
+                                  style: DefaultTextStyle.of(context)
+                                      .style
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text:
+                                            '${snapshot.data![index]['fechaFin']}',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.normal)),
+                                  ],
+                                ),
+                              ),
 
-                              Text(
-                                  'Via de administración: ${snapshot.data![index]['viaAdministracion']}'),
-                              Text(
-                                  'Hora inicio toma: ${snapshot.data![index]['horaInicioToma']}'),
-                              Text(
-                                  'Cantidad total envase : ${snapshot.data![index]['cantidadTotalPastillas']}'),
-                              Text(
-                                  'Cantidad mínima envase : ${snapshot.data![index]['cantidadMinima']}'),
-                              Text(
-                                  'Descripción: ${snapshot.data![index]['descripcion']}'),
+                              RichText(
+                                text: TextSpan(
+                                  text: 'Frecuencia: ',
+                                  style: DefaultTextStyle.of(context)
+                                      .style
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text:
+                                            '${snapshot.data![index]['frecuencia']} veces al día',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.normal)),
+                                  ],
+                                ),
+                              ),
 
-                              Text(
-                                  'Medicamento: ${snapshot.data![index]['nombreMedicamento']}'),
+                              RichText(
+                                text: TextSpan(
+                                  text: 'Via de administración: ',
+                                  style: DefaultTextStyle.of(context)
+                                      .style
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text:
+                                            '${snapshot.data![index]['viaAdministracion']}',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.normal)),
+                                  ],
+                                ),
+                              ),
+                              
+                              RichText(
+                                text: TextSpan(
+                                  text: 'Hora de inicio de toma: ',
+                                  style: DefaultTextStyle.of(context)
+                                      .style
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text:
+                                            '${snapshot.data![index]['horaInicioToma']}',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.normal)),
+                                  ],
+                                ),
+                              ),
+
+                              RichText(
+                                text: TextSpan(
+                                  text: 'Cantidad total: ',
+                                  style: DefaultTextStyle.of(context)
+                                      .style
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text:
+                                            '${snapshot.data![index]['cantidadTotalPastillas']}',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.normal)),
+                                  ],
+                                ),
+                              ),
+                              
+                              RichText(
+                                text: TextSpan(
+                                  text: 'Cantidad mínima: ',
+                                  style: DefaultTextStyle.of(context)
+                                      .style
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text:
+                                            '${snapshot.data![index]['cantidadMinima']}',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.normal)),
+                                  ],
+                                ),
+                              ),
+                              
+                              RichText(
+                                text: TextSpan(
+                                  text: 'Descripción: ',
+                                  style: DefaultTextStyle.of(context)
+                                      .style
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text:
+                                            '${snapshot.data![index]['descripcion']}',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.normal)),
+                                  ],
+                                ),
+                              ),
+
+                              RichText(
+                                text: TextSpan(
+                                  text: 'Medicamento: ',
+                                  style: DefaultTextStyle.of(context)
+                                      .style
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text:
+                                            '${snapshot.data![index]['nombreMedicamento']}',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.normal)),
+                                  ],
+                                ),
+                              ),
 
                               // Acordarse de poner: m.nombre as nombreMedicamento
                             ],
                           ),
-                        trailing: IconButton(
+                          trailing: IconButton(
                             icon: Icon(Icons.delete, color: Colors.red),
                             // Pregunta si está seguro de eliminar el tratamiento
                             onPressed: () {
@@ -165,6 +302,7 @@ class _ListadoTratamientosState extends State<ListadoTratamientos> {
                                 snapshot.data![index]['id'];
                             Tratamiento tratamientoIdMedicamento =
                                 Tratamiento();
+
                             tratamientoIdMedicamento.idMedicamento =
                                 snapshot.data![index]['idMedicamento'];
                             Tratamiento tratamientoIdUsuario = Tratamiento();
@@ -172,6 +310,7 @@ class _ListadoTratamientosState extends State<ListadoTratamientos> {
                                 snapshot.data![index]['idUsuario'];
                             Tratamiento tratamientoCondicionMedica =
                                 Tratamiento();
+
                             tratamientoCondicionMedica.condicionMedica =
                                 snapshot.data![index]['condicionMedica'];
                             Tratamiento tratamientoDosis = Tratamiento();
@@ -182,6 +321,7 @@ class _ListadoTratamientosState extends State<ListadoTratamientos> {
                                 snapshot.data![index]['frecuencia'];
                             Tratamiento tratamientoViaAdministracion =
                                 Tratamiento();
+
                             tratamientoViaAdministracion.viaAdministracion =
                                 snapshot.data![index]['viaAdministracion'];
                             Tratamiento tratamientoFechaInicio = Tratamiento();
@@ -194,15 +334,18 @@ class _ListadoTratamientosState extends State<ListadoTratamientos> {
                                 snapshot.data![index]['fechaFin'];
                             Tratamiento tratamientoHoraInicioToma =
                                 Tratamiento();
+
                             tratamientoHoraInicioToma.horaInicioToma =
                                 snapshot.data![index]['horaInicioToma'];
                             Tratamiento tratamientoCantidadTotalPastillas =
                                 Tratamiento();
+
                             tratamientoCantidadTotalPastillas
                                     .cantidadTotalPastillas =
                                 snapshot.data![index]['cantidadTotalPastillas'];
                             Tratamiento tratamientoCantidadMinima =
                                 Tratamiento();
+
                             tratamientoCantidadMinima.cantidadMinima =
                                 snapshot.data![index]['cantidadMinima'];
                             Tratamiento tratamientoDescripcion = Tratamiento();
@@ -242,13 +385,7 @@ class _ListadoTratamientosState extends State<ListadoTratamientos> {
                               ),
                             );
                           },
-          
-
-                            
-                          ),
-
-                 
-     
+                        ),
                       );
                     },
                   );

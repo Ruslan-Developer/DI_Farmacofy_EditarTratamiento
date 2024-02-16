@@ -1,5 +1,7 @@
 import 'package:farmacofy/BBDD/bbdd.dart';
 import 'package:farmacofy/inicioSesion/pantallaLogin.dart';
+import 'package:farmacofy/models/usuario.dart';
+import 'package:farmacofy/pages/page_editar_usuario.dart';
 import 'package:farmacofy/pages/page_listado_tratamientos.dart';
 import 'package:farmacofy/pages/page_nuevo_usuario.dart';
 import 'package:farmacofy/pages/page_tratamiento.dart';
@@ -8,8 +10,6 @@ import 'package:farmacofy/presentacion/widgets/menu_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-
-
 
 class ListadoUsuarios extends StatefulWidget {
   const ListadoUsuarios({super.key});
@@ -32,9 +32,8 @@ class IdUsuarioSeleccionado with ChangeNotifier {
 class _ListadoUsuariosState extends State<ListadoUsuarios> {
   @override
   Widget build(BuildContext context) {
-
     // Obtener el id del usuario del proveedor
-    
+
     final usuarioProvider = context.read<IdSupervisor>();
     final int idAdministrador = usuarioProvider.idUsuario;
 
@@ -84,27 +83,16 @@ class _ListadoUsuariosState extends State<ListadoUsuarios> {
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
                       return GestureDetector(
+                        // Al pulsar sobre una tarjeta de usuario nos lleva a tratamientos de ese usuario
                         onTap: () {
-                  
-                          // Guardar el ID del usuario en el Provider
-                          final usuarioId = snapshot.data![index]['id'] as int;
-                          Provider.of<IdUsuarioSeleccionado>(context, listen: false).setIdUsuario(usuarioId);
-                          // bool esAdmin=Provider.of<AdminProvider>(context, listen: false).actualizarEsAdmin(false);
-
-                          ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                            'ID Usuario: $usuarioId'),
-                      ),
-                    );
-
-                          // Navegar a la pantalla de detalle del usuario
 
                           Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ListadoTratamientos()),
-                          );
+                                  context,
+                                  MaterialPageRoute(
+                                      // Cambiar a pantalla EditarMedicamento y pasar el id del medicamento seleccionado
+                                      builder: (context) => const ListadoTratamientos()),
+                                );
+                          
                         },
                         //Separacion entre las tarjetas
                         // margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
@@ -128,12 +116,104 @@ class _ListadoUsuariosState extends State<ListadoUsuarios> {
                                     fontSize: 15.0),
                               ),
                               Text(
-                                'Hora cita: ' +
+                                'Contraseña: ' +
                                     snapshot.data![index]['contrasena'],
                                 style: TextStyle(
                                     color: Color.fromARGB(255, 4, 167, 12),
                                     fontSize: 17.0),
                               ), // Añade la hora aquí
+                            ],
+                          ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              IconButton(
+                                icon: Icon(Icons.edit, color: Colors.blue),
+                                onPressed: () {
+                                  // Aquí agregamos la lógica para editar el usuario
+                                  // Guardar el ID del usuario en el Provider
+                          final usuarioId = snapshot.data![index]['id'] as int;
+                          Provider.of<IdUsuarioSeleccionado>(context,
+                                  listen: false)
+                              .setIdUsuario(usuarioId);
+                          // bool esAdmin=Provider.of<AdminProvider>(context, listen: false).actualizarEsAdmin(false);
+                          // Actualizar el ID del usuario seleccionado
+                          Usuario usuarioSeleccionado = Usuario();
+                          usuarioSeleccionado.id = snapshot.data![index]['id'];
+                          Usuario usuarioNombre = Usuario();
+                          usuarioNombre.nombre =
+                              snapshot.data![index]['nombre'];
+                          Usuario usuarioUsuario = Usuario();
+                          usuarioUsuario.usuario =
+                              snapshot.data![index]['usuario'];
+                          Usuario usuarioContrasena = Usuario();
+                          usuarioContrasena.contrasena =
+                              snapshot.data![index]['contrasena'];
+                          Usuario usuarioAdministrador = Usuario();
+                          usuarioAdministrador.administrador =
+                              snapshot.data![index]['administrador'] as int == 1
+                                  ? true
+                                  : false;
+                          Usuario usuarioIdAdministrador = Usuario();
+                          usuarioIdAdministrador.idAdministrador =
+                              snapshot.data![index]['id_administrador'];
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('ID Usuario: $usuarioId'),
+                            ),
+                          );
+
+                          // Navegar a la pantalla de detalle del usuario
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditarUsuario(
+                                    usuarioSeleccionado: usuarioSeleccionado,
+                                    usuarioNombre: usuarioNombre,
+                                    usuarioUsuario: usuarioUsuario,
+                                    usuarioContrasena: usuarioContrasena,
+                                    usuarioAdministrador: usuarioAdministrador,
+                                    usuarioIdAdministrador:
+                                    usuarioIdAdministrador)),
+                          );
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.delete, color: Colors.red),
+                                onPressed: () {
+                                  // Aquí agregamos la lógica para eliminar el usuario
+                                  showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('Eliminar la consulta médica'),
+                                    content:  Text(
+                                        '¿Estás seguro de eliminar a este usuario ?'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: const Text('Cancelar'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: const Text('Aceptar'),
+                                        onPressed: () {
+                                          // Aquí va tu código para eliminar la consulta de la base de datos
+                                          BaseDeDatos.eliminarBD('Usuarios', snapshot.data![index]['id']);
+                                         
+                                          setState(() {});
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                                },
+                              ),
                             ],
                           ),
                         ),
@@ -150,6 +230,7 @@ class _ListadoUsuariosState extends State<ListadoUsuarios> {
           ),
         ],
       ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushReplacement(
@@ -163,23 +244,6 @@ class _ListadoUsuariosState extends State<ListadoUsuarios> {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // class ListadoUsuarios extends StatefulWidget {
 //   const ListadoUsuarios({super.key});

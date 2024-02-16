@@ -7,7 +7,7 @@ class Usuario {
   late String _usuario;
   late String _contrasena;
   late bool _administrador;
-   int? _idAdministrador;
+  int? _idAdministrador;
 
   Usuario() {
     _nombre = "";
@@ -42,6 +42,10 @@ class Usuario {
   bool get administrador => _administrador;
   int? get idAdministrador => _idAdministrador;
 
+  set id(int? id) {
+    _id = id;
+  }
+  
   set nombre(String nombre) {
     _nombre = nombre;
   }
